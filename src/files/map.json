@@ -1,0 +1,45 @@
+{
+  "Map": "Map",
+  "maps": [
+    {
+      "text": "UZB",
+      "size": 1.0,
+      "country": "Uzbekistan",
+      "city": "Bukhara",
+      "lat": "39.7681",
+      "lng": "64.4556"
+    },
+    {
+      "text": "UK",
+      "size": 1.0,
+      "country": "United Kingdom",
+      "city": "London",
+      "lat": "51.5074",
+      "lng": "-0.1278"
+    },
+    {
+      "text": "USA",
+      "size": 1.0,
+      "country": "USA",
+      "city": "New York",
+      "lat": "40.7128",
+      "lng": "-74.0060"
+    },
+    {
+      "text": "ITA",
+      "size": 1.0,
+      "country": "Italy",
+      "city": "Rome",
+      "lat": "41.9028",
+      "lng": "12.4964"
+    },
+    {
+      "text": "CZE",
+      "size": 1.0,
+      "country": "Czech Republic",
+      "city": "Prague",
+      "lat": "50.0755",
+      "lng": "14.4378"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "PullRequest",
+  "pulls":[{
+    "type": "pull",
+    "order": 1,
+    "from": "UZB",
+    "to": "UK",
+    "startLat": "39.7681",
+    "startLng": "64.4556",
+    "endLat": "51.5074",
+    "endLng": "-0.1278",
+    "arcAlt": 0.5
+  }]
+}
