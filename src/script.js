@@ -1,21 +1,27 @@
-import './style.css'
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import ThreeGlobe from 'three-globe'
+import './style.css';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import ThreeGlobe from 'three-globe';
 import countries from './files/custom.geo.json';
 import lines from './files/lines.json';
 import Map from './files/map.json';
+import Flight from './files/Flight.json';
+import { getLatLng } from './methods/methods.js';
+import simulateFlightData from "./FetchingFlightData";
 
-let mouseX = 0;
-let mouseY = 0;
-let camera, controls, renderer, scene;
+let mouseX = 0, mouseY = 0;
+let camera, controls, renderer, scene, Globe;
 const canvas = document.querySelector('canvas.webgl');
-let Globe;
+// console.log(Flight)
+// Assuming simulateFlightData is a function that handles the flight simulation
+
+
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 };
-let windowHalfX = sizes.width / 2;  // Initialize windowHalfX and windowHalfY
+
+let windowHalfX = sizes.width / 2;
 let windowHalfY = sizes.height / 2;
 
 init();
@@ -23,6 +29,9 @@ initGlobe();
 onWindowResize();
 animate();
 onMouseMove();
+
+
+
 
 function init() {
     /**
@@ -84,9 +93,7 @@ function init() {
 }
 
 function initGlobe() {
-    /**
-     * Objects
-     */
+    // Initialize Globe with options
     Globe = new ThreeGlobe({
         waitForGlobeReady: true,
         animation: true
@@ -96,16 +103,17 @@ function initGlobe() {
         .hexPolygonMargin(0.7)
         .showAtmosphere(true)
         .atmosphereColor('#3a228a')
-        .atmosphereAltitude(0.25)
+        .atmosphereAltitude(0.25);
 
-    // Convert lat/lng strings to numbers and generate arcs and labels
+    // Wait for the globe to be ready before setting up arcs, labels, and points
     setTimeout(() => {
-        Globe.arcsData(lines.pulls.map(pull => ({
+        // Process arcs data and add custom properties
+        Globe.arcsData(lines.pulls.map((pull) => ({
             ...pull,
             startLat: parseFloat(pull.startLat),
             startLng: parseFloat(pull.startLng),
             endLat: parseFloat(pull.endLat),
-            endLng: parseFloat(pull.endLng)
+            endLng: parseFloat(pull.endLng),
         })))
             .arcColor((e) => e.status ? "#9cff00" : "#fff")
             .arcAltitude((e) => e.arcAlt)
@@ -116,67 +124,58 @@ function initGlobe() {
             .arcsTransitionDuration(1000)
             .arcDashInitialGap((e) => e.order * 1);
 
+        // Process label data and add custom properties
         Globe.labelsData(Map.maps.map((map) => ({
             ...map,
             lat: parseFloat(map.lat),
-            lng: parseFloat(map.lng)
+            lng: parseFloat(map.lng),
         })))
-            .labelColor(() => '#ffcb21')
+            .labelColor(() => "#ffcb21")
             .labelDotRadius(0.3)
             .labelSize((e) => e.size)
-            .labelText('city')
+            .labelText("city")
             .labelResolution(6)
             .labelAltitude(0.01);
 
+        // Process points data and add custom properties
         Globe.pointsData(Map.maps.map((map) => ({
             ...map,
             lat: parseFloat(map.lat),
-            lng: parseFloat(map.lng)
+            lng: parseFloat(map.lng),
         })))
-            .pointColor(() => '#fff')
+            .pointColor(() => "#fff")
             .pointsMerge(true)
             .pointAltitude(0.07)
             .pointRadius(0.05);
     }, 1000);
 
+    // Set globe rotation to the desired position
     Globe.rotateX(-Math.PI * (5 / 9));
     Globe.rotateY(-Math.PI * 6);
 
+    // Customize globe material (e.g., color, emissive properties)
     const globeMaterial = Globe.globeMaterial();
     globeMaterial.color = new THREE.Color(0x3a228a);
     globeMaterial.emissive = new THREE.Color(0x220038);
     globeMaterial.emissiveIntensity = 1;
     globeMaterial.shininess = 0.7;
 
+    // Simulate flight data (ensure it's properly integrated)
+    simulateFlightData(Flight, Globe);
+
+    // Add the Globe object to the scene
     scene.add(Globe);
-    // Fetch city data from OpenCage API (replace with your actual API key)
-    fetch(`https://api.opencagedata.com/geocode/v1/json?q=London&key=3be1fd32756a4b6e8e2f3a4beb226d32`)
-        .then(response => response.json())  // Parse the response as JSON
-        .then(data => {
-            // Log the entire response data to the console
-            console.log("API Response:", data);
-
-            // Log the specific result (city, country, lat, lng)
-            if (data.results && data.results.length > 0) {
-                const city = data.results[0];
-                console.log("City:", city.formatted); // City name (full address)
-                console.log("Country:", city.components.country); // Country name
-                console.log("Latitude:", city.geometry.lat); // Latitude
-                console.log("Longitude:", city.geometry.lng); // Longitude
-            } else {
-                console.log("No results found.");
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data from OpenCage:', error);  // Handle errors
-        });
-
 }
+
+
 
 function onMouseMove(event) {
-    mouseX = event.clientX - windowHalfX;
-    mouseY = event.clientY - windowHalfY;
+    if (event) {
+        mouseX = event.clientX - windowHalfX;
+        mouseY = event.clientY - windowHalfY;
+    }
 }
+
 
 function onWindowResize() {
     sizes.width = window.innerWidth;
@@ -199,3 +198,6 @@ function animate() {
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
+
+
+// Fetch flight data for a specific flight

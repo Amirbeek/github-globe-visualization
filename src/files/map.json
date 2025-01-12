@@ -1,45 +1,235 @@
 {
-  "Map": "Map",
+  "Map": "World Map",
   "maps": [
     {
-      "text": "UZB",
+      "city": "Mexico",
+      "text": "Mexico City",
       "size": 1.0,
-      "country": "Uzbekistan",
-      "city": "Bukhara",
-      "lat": "39.7681",
-      "lng": "64.4556"
+      "country": "Mexico",
+      "lat": "19.432608",
+      "lng": "-99.133209"
     },
     {
-      "text": "UK",
+      "city": "Toronto",
+      "text": "Toronto",
       "size": 1.0,
-      "country": "United Kingdom",
-      "city": "London",
-      "lat": "51.5074",
-      "lng": "-0.1278"
+      "country": "Canada",
+      "lat": "43.651070",
+      "lng": "-79.347015"
     },
     {
-      "text": "USA",
+      "city": "São Paulo",
+      "text": "São Paulo",
       "size": 1.0,
-      "country": "USA",
-      "city": "New York",
-      "lat": "40.7128",
-      "lng": "-74.0060"
+      "country": "Brazil",
+      "lat": "-23.550520",
+      "lng": "-46.633308"
     },
     {
-      "text": "ITA",
+      "city": "Delhi",
+      "text": "Delhi",
+      "size": 1.0,
+      "country": "India",
+      "lat": "28.704060",
+      "lng": "77.102490"
+    },
+    {
+      "city": "Sydney",
+      "text": "Sydney",
+      "size": 1.0,
+      "country": "Australia",
+      "lat": "-33.868820",
+      "lng": "151.209290"
+    },
+    {
+      "city": "Rome",
+      "text": "Rome",
       "size": 1.0,
       "country": "Italy",
-      "city": "Rome",
-      "lat": "41.9028",
-      "lng": "12.4964"
+      "lat": "41.902783",
+      "lng": "12.496365"
     },
     {
-      "text": "CZE",
+      "city": "New York",
+      "text": "New York",
       "size": 1.0,
-      "country": "Czech Republic",
-      "city": "Prague",
-      "lat": "50.0755",
-      "lng": "14.4378"
+      "country": "USA",
+      "lat": "40.712776",
+      "lng": "-74.005974"
+    },
+    {
+      "city": "Madrid",
+      "text": "Madrid",
+      "size": 1.0,
+      "country": "Spain",
+      "lat": "40.416775",
+      "lng": "-3.703790"
+    },
+    {
+      "city": "Amsterdam",
+      "text": "Amsterdam",
+      "size": 1.0,
+      "country": "Netherlands",
+      "lat": "52.367573",
+      "lng": "4.904139"
+    },
+    {
+      "city": "Dubai",
+      "text": "Dubai",
+      "size": 1.0,
+      "country": "UAE",
+      "lat": "25.276987",
+      "lng": "55.296249"
+    },
+    {
+      "city": "Hong Kong",
+      "text": "Hong Kong",
+      "size": 1.0,
+      "country": "Hong Kong",
+      "lat": "22.319304",
+      "lng": "114.169361"
+    },
+    {
+      "city": "London",
+      "text": "London",
+      "size": 1.0,
+      "country": "United Kingdom",
+      "lat": "51.507351",
+      "lng": "-0.127758"
+    },
+    {
+      "city": "Tokyo",
+      "text": "Tokyo",
+      "size": 1.0,
+      "country": "Japan",
+      "lat": "35.689487",
+      "lng": "139.691711"
+    },
+    {
+      "city": "Lisbon",
+      "text": "Lisbon",
+      "size": 1.0,
+      "country": "Portugal",
+      "lat": "38.722252",
+      "lng": "-9.139337"
+    },
+    {
+      "city": "Lagos",
+      "text": "Lagos",
+      "size": 1.0,
+      "country": "Nigeria",
+      "lat": "6.524379",
+      "lng": "3.379206"
+    },
+    {
+      "city": "Las Vegas",
+      "text": "Las Vegas",
+      "size": 1.0,
+      "country": "USA",
+      "lat": "36.169941",
+      "lng": "-115.139832"
+    },
+    {
+      "city": "Cairo",
+      "text": "Cairo",
+      "size": 1.0,
+      "country": "Egypt",
+      "lat": "30.044420",
+      "lng": "31.235712"
+    },{
+      "city": "Sweden",
+      "text": "Stockholm",
+      "size": 1.0,
+      "country": "Sweden",
+      "lat": "59.329323",
+      "lng": "18.068581"
+    },
+    {
+      "city": "Dublin",
+      "text": "Dublin",
+      "size": 1.0,
+      "country": "Ireland",
+      "lat": "53.349805",
+      "lng": "-6.260310"
+    },
+    {
+      "city": "Paris",
+      "text": "Paris",
+      "size": 1.0,
+      "country": "France",
+      "lat": "48.856614",
+      "lng": "2.352222"
+    },
+    {
+      "city": "Bangkok",
+      "text": "Bangkok",
+      "size": 1.0,
+      "country": "Thailand",
+      "lat": "13.756331",
+      "lng": "100.501765"
+    },
+    {
+      "city": "Marrakesh",
+      "text": "Marrakesh",
+      "size": 1.0,
+      "country": "Morocco",
+      "lat": "31.629472",
+      "lng": "-7.981084"
+    },
+    {
+      "city": "Johannesburg",
+      "text": "Johannesburg",
+      "size": 1.0,
+      "country": "South Africa",
+      "lat": "-26.204103",
+      "lng": "28.047305"
+    },
+    {
+      "city": "Athens",
+      "text": "Athens",
+      "size": 1.0,
+      "country": "Greece",
+      "lat": "37.983810",
+      "lng": "23.727539"
+    },
+    {
+      "city": "Moscow",
+      "text": "Moscow",
+      "size": 1.0,
+      "country": "Russia",
+      "lat": "55.755826",
+      "lng": "37.617300"
+    }, {
+      "city": "Almaty",
+      "text": "Almaty",
+      "size": 1.0,
+      "country": "Kazakhstan",
+      "lat": "43.2220",
+      "lng": "76.8512"
+    },
+
+    {
+      "city": "Texas",
+      "text": "Texas",
+      "size": 1.0,
+      "country": "USA",
+      "lat": "31.968599",
+      "lng": "-99.901813"
+    },{
+      "city": "Tashkent",
+      "text": "Tashkent",
+      "size": 1.0,
+      "country": "Uzbekistan",
+      "lat": "41.2995",
+      "lng": "69.2401"
+    },
+    {
+      "city": "San Paulo",
+      "text": "San Paulo",
+      "size": 1.0,
+      "country": "Brazil",
+      "lat": "-23.550520",
+      "lng": "-46.633308"
     }
   ]
 }
