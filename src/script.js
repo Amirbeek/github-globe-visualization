@@ -6,15 +6,55 @@ import countries from './files/custom.geo.json';
 import lines from './files/lines.json';
 import Map from './files/map.json';
 import Flight from './files/Flight.json';
-import { getLatLng } from './methods/methods.js';
 import simulateFlightData from "./FetchingFlightData";
+import * as dat from 'lil-gui';
 
+/**
+ * Base
+ */
+
+// Debug
+const gui = new dat.GUI();
+
+const parameters = {
+    globeColor: 0x3a228a,
+    emissiveColor: 0x220038,
+    emissiveIntensity: 1,
+    shininess: 0.7,
+    ambientLightIntensity: 1,
+    directionalLightIntensity: 2,
+    pointLightIntensity: 0.5,
+    lightPositionX: -800,
+    lightPositionY: 2000,
+    lightPositionZ: 400,
+    rotateSpeed: 0.8,
+    zoomSpeed: 1,
+};
+
+// Lights and Shadows update
+const lightFolder = gui.addFolder('Light Settings');
+lightFolder.add(parameters, 'ambientLightIntensity', 0, 1).name('Ambient Light Intensity').onChange(updateLights);
+lightFolder.add(parameters, 'directionalLightIntensity', 0, 4).name('Directional Light Intensity').onChange(updateLights);
+lightFolder.add(parameters, 'pointLightIntensity', 0, 1).name('Point Light Intensity').onChange(updateLights);
+lightFolder.add(parameters, 'lightPositionX', -2000, 2000).name('Light Position X').onChange(updateLights);
+lightFolder.add(parameters, 'lightPositionY', -2000, 2000).name('Light Position Y').onChange(updateLights);
+lightFolder.add(parameters, 'lightPositionZ', -2000, 2000).name('Light Position Z').onChange(updateLights);
+lightFolder.open();
+
+// Globe settings
+const globeFolder = gui.addFolder('Globe Settings');
+globeFolder.add(parameters, 'globeColor').name('Globe Color').onChange(updateGlobe);
+globeFolder.add(parameters, 'emissiveColor').name('Emissive Color').onChange(updateGlobe);
+globeFolder.add(parameters, 'emissiveIntensity', 0, 2).name('Emissive Intensity').onChange(updateGlobe);
+globeFolder.add(parameters, 'shininess', 0, 100).name('Shininess').onChange(updateGlobe);
+globeFolder.open();
+
+/**
+ * Base
+ */
 let mouseX = 0, mouseY = 0;
 let camera, controls, renderer, scene, Globe;
 const canvas = document.querySelector('canvas.webgl');
-// console.log(Flight)
-// Assuming simulateFlightData is a function that handles the flight simulation
-
 
 const sizes = {
     width: window.innerWidth,
@@ -24,66 +64,60 @@ const sizes = {
 let windowHalfX = sizes.width / 2;
 let windowHalfY = sizes.height / 2;
 
+// Initialize
 init();
 initGlobe();
 onWindowResize();
 animate();
 onMouseMove();
 
-
-
-
+/**
+ * Initialize scene, renderer, camera, controls, and lighting
+ */
 function init() {
-    /**
-     * Renderer
-     */
+    // Renderer
     renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias: true,
     });
-    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = true; // Enable shadows
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(sizes.width, sizes.height);
 
     scene = new THREE.Scene();
 
-    /**
-     * Lights
-     */
-    const ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.3);
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xbbbbbb, parameters.ambientLightIntensity);
+    scene.add(ambientLight);
 
-    /**
-     * Camera
-     */
+    const directionalLight = new THREE.DirectionalLight(0xffffff, parameters.directionalLightIntensity);
+    directionalLight.position.set(parameters.lightPositionX, parameters.lightPositionY, parameters.lightPositionZ).normalize();
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+    const pointLight = new THREE.PointLight(0x8566cc, parameters.pointLightIntensity);
+    pointLight.position.set(-200, 500, 200);
+    scene.add(pointLight);
+
+    // Camera
     camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 2000);
     camera.position.set(400, 0, 0);
     camera.updateProjectionMatrix();
-    scene.add(ambientLight);
-
-    const light = new THREE.DirectionalLight(0xffffff, 0.8);
-    light.position.set(-800, 2000, 400);
-
-    const light1 = new THREE.DirectionalLight(0x7982f6, 1);
-    light1.position.set(-200, 500, 200);
-
-    const light2 = new THREE.PointLight(0x8566cc, 0.5);
-    light2.position.set(-200, 500, 200);
-
-    camera.add(light, light1, light2);
-
     scene.add(camera);
 
+    // Fog
     scene.fog = new THREE.Fog(0x535ef3, 400, 2000);
     scene.background = new THREE.Color(0x040d21);
 
+    // Controls
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dynamicDampingFactor = 0.01;
     controls.enablePan = false;
     controls.minDistance = 200;
     controls.maxDistance = 500;
-    controls.rotateSpeed = 0.8;
-    controls.zoomSpeed = 1;
+    controls.rotateSpeed = parameters.rotateSpeed;
+    controls.zoomSpeed = parameters.zoomSpeed;
     controls.autoRotate = false;
     controls.minPolarAngle = Math.PI / 3.5;
     controls.maxPolarAngle = Math.PI - Math.PI / 3;
@@ -92,8 +126,10 @@ function init() {
     document.addEventListener('mousemove', onMouseMove, false);
 }
 
+/**
+ * Initialize Globe
+ */
 function initGlobe() {
-    // Initialize Globe with options
     Globe = new ThreeGlobe({
         waitForGlobeReady: true,
         animation: true
@@ -105,9 +141,8 @@ function initGlobe() {
         .atmosphereColor('#3a228a')
         .atmosphereAltitude(0.25);
 
-    // Wait for the globe to be ready before setting up arcs, labels, and points
+    // Set up arcs, labels, and points data
     setTimeout(() => {
-        // Process arcs data and add custom properties
         Globe.arcsData(lines.pulls.map((pull) => ({
             ...pull,
             startLat: parseFloat(pull.startLat),
@@ -124,7 +159,6 @@ function initGlobe() {
             .arcsTransitionDuration(1000)
             .arcDashInitialGap((e) => e.order * 1);
 
-        // Process label data and add custom properties
         Globe.labelsData(Map.maps.map((map) => ({
             ...map,
             lat: parseFloat(map.lat),
@@ -137,7 +171,6 @@ function initGlobe() {
             .labelResolution(6)
             .labelAltitude(0.01);
 
-        // Process points data and add custom properties
         Globe.pointsData(Map.maps.map((map) => ({
             ...map,
             lat: parseFloat(map.lat),
@@ -149,26 +182,52 @@ function initGlobe() {
             .pointRadius(0.05);
     }, 1000);
 
-    // Set globe rotation to the desired position
+    // Set globe rotation
     Globe.rotateX(-Math.PI * (5 / 9));
     Globe.rotateY(-Math.PI * 6);
 
-    // Customize globe material (e.g., color, emissive properties)
-    const globeMaterial = Globe.globeMaterial();
-    globeMaterial.color = new THREE.Color(0x3a228a);
-    globeMaterial.emissive = new THREE.Color(0x220038);
-    globeMaterial.emissiveIntensity = 1;
-    globeMaterial.shininess = 0.7;
+    // Globe Material
+    updateGlobe();
 
-    // Simulate flight data (ensure it's properly integrated)
+    // Simulate flight data
     simulateFlightData(Flight, Globe);
 
-    // Add the Globe object to the scene
     scene.add(Globe);
 }
 
+/**
+ * Update Lights based on the parameters
+ */
+function updateLights() {
+    scene.children.forEach(child => {
+        if (child instanceof THREE.DirectionalLight) {
+            child.intensity = parameters.directionalLightIntensity;
+            child.position.set(parameters.lightPositionX, parameters.lightPositionY, parameters.lightPositionZ);
+        }
+        if (child instanceof THREE.AmbientLight) {
+            child.intensity = parameters.ambientLightIntensity;
+        }
+        if (child instanceof THREE.PointLight) {
+            child.intensity = parameters.pointLightIntensity;
+        }
+    });
+}
 
+/**
+ * Update Globe Material based on the parameters
+ */
+function updateGlobe() {
+    const globeMaterial = Globe.globeMaterial();
+    globeMaterial.color.set(parameters.globeColor);
+    globeMaterial.emissive.set(parameters.emissiveColor);
+    globeMaterial.emissiveIntensity = parameters.emissiveIntensity;
+    globeMaterial.shininess = parameters.shininess;
+    globeMaterial.needsUpdate = true;
+}
 
+/**
+ * Handle mouse move for camera adjustments
+ */
 function onMouseMove(event) {
     if (event) {
         mouseX = event.clientX - windowHalfX;
@@ -176,7 +235,9 @@ function onMouseMove(event) {
     }
 }
 
-
+/**
+ * Handle window resize
+ */
 function onWindowResize() {
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight;
@@ -188,16 +249,13 @@ function onWindowResize() {
 }
 
 /**
- * Animate
+ * Animate the scene and render the camera view
  */
 function animate() {
     camera.position.x += Math.abs(mouseX) <= windowHalfX / 2 ? (mouseX / 2 - camera.position.x) * 0.005 : 0;
-    camera.position.y += Math.abs(mouseY) <= windowHalfY / 2 ? (-mouseY / 2 - camera.position.y) * 0.005 : 0;
+    camera.position.y += Math.abs(mouseY) <= windowHalfY / 2 ? (-mouseY / 4 - camera.position.y) * 0.005 : 0;
     camera.lookAt(scene.position);
     controls.update();
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
-
-
-// Fetch flight data for a specific flight
