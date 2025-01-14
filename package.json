@@ -3,7 +3,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js"
+    "dev": "webpack serve --config ./bundler/webpack.dev.js",
+    "start": "npm run dev"
   },
   "dependencies": {
     "@babel/core": "^7.15.8",
@@ -29,6 +30,7 @@
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "json-loader": "^0.5.7"
   }
 }

@@ -15,7 +15,15 @@ import * as dat from 'lil-gui';
 
 // Debug
 const gui = new dat.GUI();
+const params = {
+    rotationSpeed: 0.01,
+    showGUI: true
+};
 
+gui.add(params, 'rotationSpeed', 0, 0.1).name('Rotation Speed');
+gui.add(params, 'showGUI').name('Show GUI').onChange(value => {
+    gui.domElement.style.display = value ? '' : 'none';
+});
 const parameters = {
     globeColor: 0x3a228a,
     emissiveColor: 0x220038,
@@ -37,8 +45,8 @@ lightFolder.add(parameters, 'ambientLightIntensity', 0, 1).name('Ambient Light I
 lightFolder.add(parameters, 'directionalLightIntensity', 0, 4).name('Directional Light Intensity').onChange(updateLights);
 lightFolder.add(parameters, 'pointLightIntensity', 0, 1).name('Point Light Intensity').onChange(updateLights);
 lightFolder.add(parameters, 'lightPositionX', -2000, 2000).name('Light Position X').onChange(updateLights);
-lightFolder.add(parameters, 'lightPositionY', -2000, 2000).name('Light Position Y').onChange(updateLights);
-lightFolder.add(parameters, 'lightPositionZ', -2000, 2000).name('Light Position Z').onChange(updateLights);
+lightFolder.add(parameters, 'lightPositionY', -2000, 4000).name('Light Position Y').onChange(updateLights);
+lightFolder.add(parameters, 'lightPositionZ', -2000, 4000).name('Light Position Z').onChange(updateLights);
 lightFolder.open();
 
 // Globe settings
@@ -96,15 +104,21 @@ function init() {
     scene.add(directionalLight);
 
     const pointLight = new THREE.PointLight(0x8566cc, parameters.pointLightIntensity);
-    pointLight.position.set(-200, 500, 200);
+    pointLight.position.set(-400, 500, 200);
     scene.add(pointLight);
 
     // Camera
     camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 2000);
-    camera.position.set(400, 0, 0);
+    camera.position.set(300, 0, 0);
     camera.updateProjectionMatrix();
     scene.add(camera);
 
+
+    const cameraFolder = gui.addFolder('Camera Position');
+    cameraFolder.add(camera.position, 'x', 0, 1000);
+    cameraFolder.add(camera.position, 'y', 0, 1000);
+    cameraFolder.add(camera.position, 'z', 0, 1000);
+    cameraFolder.open();
     // Fog
     scene.fog = new THREE.Fog(0x535ef3, 400, 2000);
     scene.background = new THREE.Color(0x040d21);
@@ -139,7 +153,7 @@ function initGlobe() {
         .hexPolygonMargin(0.7)
         .showAtmosphere(true)
         .atmosphereColor('#3a228a')
-        .atmosphereAltitude(0.25);
+        .atmosphereAltitude(0.50);
 
     // Set up arcs, labels, and points data
     setTimeout(() => {
@@ -223,6 +237,10 @@ function updateGlobe() {
     globeMaterial.emissiveIntensity = parameters.emissiveIntensity;
     globeMaterial.shininess = parameters.shininess;
     globeMaterial.needsUpdate = true;
+    globeMaterial.transparent = true;
+
+    // globeMaterial.wireframe = true;
+
 }
 
 /**
