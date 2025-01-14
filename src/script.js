@@ -37,6 +37,9 @@ const parameters = {
     lightPositionZ: 400,
     rotateSpeed: 0.8,
     zoomSpeed: 1,
+    lightPositionX2: -400,
+    lightPositionY2: 2000,
+    lightPositionZ2: 300,
 };
 
 // Lights and Shadows update
@@ -96,17 +99,19 @@ function init() {
 
     // Lights
     const ambientLight = new THREE.AmbientLight(0xbbbbbb, parameters.ambientLightIntensity);
-    scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, parameters.directionalLightIntensity);
     directionalLight.position.set(parameters.lightPositionX, parameters.lightPositionY, parameters.lightPositionZ).normalize();
     directionalLight.castShadow = true;
-    scene.add(directionalLight);
+
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, parameters.directionalLightIntensity);
+    directionalLight.position.set(parameters.lightPositionX, parameters.lightPositionY, parameters.lightPositionZ).normalize();
+    directionalLight.castShadow = true;
 
     const pointLight = new THREE.PointLight(0x8566cc, parameters.pointLightIntensity);
     pointLight.position.set(-400, 500, 200);
-    scene.add(pointLight);
 
+    scene.add(ambientLight, directionalLight, directionalLight2, pointLight)
     // Camera
     camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 2000);
     camera.position.set(300, 0, 0);
@@ -272,6 +277,7 @@ function onWindowResize() {
 function animate() {
     camera.position.x += Math.abs(mouseX) <= windowHalfX / 2 ? (mouseX / 2 - camera.position.x) * 0.005 : 0;
     camera.position.y += Math.abs(mouseY) <= windowHalfY / 2 ? (-mouseY / 4 - camera.position.y) * 0.005 : 0;
+    // Globe.rotation.y += 0.01;
     camera.lookAt(scene.position);
     controls.update();
     renderer.render(scene, camera);
