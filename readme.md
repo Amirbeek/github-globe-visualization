@@ -14,13 +14,6 @@ The globe displays all my boarded and cancelled flights from 2022 to 2023. Each 
 ## Documentation
 For those interested in modifying the globe or adding their own data visualization features, please refer to the `three-globe` library's comprehensive documentation. Note: The default glow effect of the globe was disabled to enhance the scene's lighting aesthetics. Instead, a custom `three-glow-mesh` was implemented to better suit the visualization's theme.
 
-## Usage
-This project is set up with Webpack to bundle and serve the application efficiently. Here are the commands to manage the build processes:
-
-```bash
-npm start        # Launches a development server with hot reloading at localhost
-npm run build    # Creates a static production build in ./dist
-
 ## Contributing
 
 Contributions are welcome! If you have suggestions or improvements, feel free to fork the repository and submit a pull request. Your input is much appreciated and will help make our project even better.
@@ -38,4 +31,13 @@ Experience the GitHub Globe Visualization live. You can view the deployed projec
 This README.md file provides a clear overview of the GitHub Globe Visualization project, its inspiration from GitHub's interactive globe, and our implementation using advanced 3D web technologies. With the globe, we visualize travel data interactively, showcasing both boarded and cancelled flights. The project is built with the `three-globe` library and custom enhancements to create a visually engaging and technically robust experience.
 
 Feel free to dive into the code, suggest improvements, or simply enjoy the visualization through our live deployment!
+
+
+## Usage
+This project is set up with Webpack to bundle and serve the application efficiently. Here are the commands to manage the build processes:
+
+```bash
+npm start        # Launches a development server with hot reloading at localhost
+npm run build    # Creates a static production build in ./dist
+
 
