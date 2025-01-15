@@ -1,5 +1,5 @@
 # GitHub Globe Visualization
-![Globe Visualization](./images/GitHub_Globe1.png)
+![Globe Visualization](https://www.amirbekshomurodov.me/images/GitHub_Globe1.png)
 ## Inspiration
 This project draws inspiration from the redesigned GitHub homepage, which features an interactive globe displaying real-time pull request activities. Fascinated by the integration of 3D elements in web design, I aimed to recreate a similar experience to showcase my personal travel data.
 
