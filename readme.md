@@ -11,12 +11,6 @@ This project draws inspiration from the redesigned [GitHub homepage](https://git
 ## Implementation
 The visualization utilizes the `three-globe` library, a Three.js project that facilitates geographically accurate data representation on a 3D globe. The scene's lighting includes a combination of ambient light and directional lights to create a dreamy space environment, enhancing the visual aesthetics. Adjustments were made to the `MeshPhongMaterial` to better integrate with the overall scene atmosphere.
 
-## Usage
-This project is set up with Webpack to bundle and serve the application efficiently. Here are the commands to manage the build processes:
-```bash
-npm start        # Launches a development server with hot reloading at localhost
-npm run build    # Creates a static production build in ./dist
-
 ## Live Demo
 Experience the GitHub Globe Visualization live. You can view the deployed project here: [GitHub Globe Visualization Live](https://github-globe-visualization.vercel.app). The globe displays all my boarded and cancelled flights from 2022 to 2023. Each flight is represented as an arc, with active flights shown in blue and cancelled ones in red. This visual representation helps trace the sequence of my travel destinations over the specified period.
 
@@ -28,3 +22,9 @@ Contributions are welcome! If you have suggestions or improvements, feel free to
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit)
+
+## Usage
+This project is set up with Webpack to bundle and serve the application efficiently. Here are the commands to manage the build processes:
+```bash
+npm start        # Launches a development server with hot reloading at localhost
+npm run build    # Creates a static production build in ./dist
