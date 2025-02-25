@@ -1,6 +1,7 @@
+⭐ If you find this project helpful, consider giving it a star on GitHub! ⭐
 # GitHub Globe Visualization
 
-![Globe Visualization](https://www.amirbekshomurodov.me/images/GitHub_Globe1.png)
+![Globe Visualization](	https://amirbekshomurodov.me/static/d885b2ba9f8a98ae9d40c32544a4a0a0/a75dd/GitHub_Globe1.webp)
 
 ## Project Overview
 This README.md provides a clear overview of the GitHub Globe Visualization project, inspired by the interactive globe featured on GitHub's redesigned homepage. We aim to showcase personal travel data interactively, using advanced 3D web technologies. This project visualizes both boarded and cancelled flights, and is built with the `three-globe` library and custom enhancements to create a visually engaging and technically robust experience.
